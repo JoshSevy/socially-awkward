@@ -1,4 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import { Post } from '../post.model';
 
 
 @Component({
@@ -7,21 +10,24 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent implements OnInit {
-  enteredContent = "";
-  enteredTitle = "";
-  @Output() postCreated = new EventEmitter();
+  @Output() postCreated = new EventEmitter<Post>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onAddPost() {
-    const post = {
-      title: this.enteredTitle,
-      content: this.enteredContent,
+  onAddPost(form: NgForm) {
+    if (form.invalid) return;
+    const post: Post = {
+      title: form.value.title,
+      content: form.value.content,
     }
     this.postCreated.emit(post);
+  }
+
+  getErrorMessage() {
+    return 'Please input something'
   }
 
 }
