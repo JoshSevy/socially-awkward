@@ -23,6 +23,7 @@ export class PostCreateComponent implements OnInit {
       content: form.value.content,
     }
     this.postsService.addPost(post);
+    form.resetForm();
   }
 
   getErrorMessage() {
