@@ -17,6 +17,7 @@ export class PostCreateComponent implements OnInit {
   public post: Post;
   public isLoading = false;
   public form: FormGroup;
+  public imagePreview: string;
 
   constructor(private postsService: PostsService, private route: ActivatedRoute) { }
 
@@ -33,7 +34,11 @@ export class PostCreateComponent implements OnInit {
           Validators.required
         ]
       }),
-
+      'image': new FormControl(null, {
+        validators: [
+          Validators.required
+        ]
+      }),
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
@@ -74,6 +79,17 @@ export class PostCreateComponent implements OnInit {
       );
     }
     this.form.reset();
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({image: file});
+    this.form.get('image').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    }
+    reader.readAsDataURL(file);
   }
 
   getErrorMessage() {
