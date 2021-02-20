@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Post } from '../post.model';
 import { PostsService } from '../posts.service';
+import { mimeType } from './mime-type.validator';
 
 
 @Component({
@@ -36,8 +37,9 @@ export class PostCreateComponent implements OnInit {
       }),
       'image': new FormControl(null, {
         validators: [
-          Validators.required
-        ]
+          Validators.required,
+        ],
+        asyncValidators: [mimeType]
       }),
     })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
