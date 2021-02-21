@@ -15,7 +15,7 @@ export class PostsService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getPosts() {
-    this.http.get<{message: string, posts: any}>('http://localhost:3000/api/posts')
+    this.http.get<{ message: string, posts: any }>('http://localhost:3000/api/posts')
       .pipe(
         map(postData => {
           return postData.posts.map(post => {
@@ -36,7 +36,7 @@ export class PostsService {
   }
 
   getPost(id: string) {
-    return this.http.get<{ _id: string, title: string, content: string }>("http://localhost:3000/api/posts/" + id);
+    return this.http.get<{ _id: string, title: string, content: string, imagePath: string }>("http://localhost:3000/api/posts/" + id);
   }
 
   getPostUpdateListener() {
@@ -51,8 +51,6 @@ export class PostsService {
     this.http.post<{ message: string, post: Post }>('http://localhost:3000/api/posts', postData)
       .subscribe((responseData) => {
         const post: Post = {id: responseData.post.id, title: title, content: content, imagePath: responseData.post.imagePath};
-        const id = responseData.post.id;
-        post.id = id;
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(["/"]);
@@ -61,8 +59,9 @@ export class PostsService {
 
   updatePost(id: string, title: string, content: string, image: File | string) {
     let postData: Post | FormData;
-    if (typeof(image) === "object") {
+    if (typeof image === "object") {
       postData = new FormData();
+      postData.append("id", id);
       postData.append("title", title);
       postData.append("content", content);
       postData.append("image", image, title);
@@ -83,7 +82,7 @@ export class PostsService {
           id: id,
           title: title,
           content: content,
-          imagePath: response.imagePath
+          imagePath: ""
         }
         updatedPost[oldPostIndex] = post;
         this.posts = updatedPost;
