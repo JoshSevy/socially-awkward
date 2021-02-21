@@ -2,16 +2,13 @@ mat-card {
   margin: auto;
 }
 
-mat-form-field {
+mat-form-field,
+textarea {
   width: 100%;
 }
 
 mat-spinner {
   margin: auto;
-}
-
-textarea {
-  width: 100%;
 }
 
 input[type="file"] {
