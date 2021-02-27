@@ -9,7 +9,7 @@ export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private authStatusListener = new Subject<boolean>();
-  private tokenTimer: NodeJS.Timer;
+  private tokenTimer: any;
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
@@ -45,6 +45,9 @@ export class AuthService {
           }, expiresInDuration * 1000);
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
+          const now = new Date();
+          const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+          this.saveAuthData(token, expirationDate)
           this.router.navigate(['/']);
         }
       })
@@ -54,7 +57,18 @@ export class AuthService {
     this.token = null;
     this.isAuthenticated = false;
     this.authStatusListener.next(false);
-    this.router.navigate(['/']);
     clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+    this.router.navigate(['/']);
+  }
+
+  private saveAuthData(token: string, expirationDate: Date) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString())
+  }
+
+  private clearAuthData() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiration");
   }
 }
