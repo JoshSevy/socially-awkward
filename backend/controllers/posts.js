@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 
-exports.addPost = (req, res, next) => {
+exports.createPost = (req, res, next) => {
     const url = req.protocol + '://' + req.get("host");
     const post = new Post({
       title: req.body.title,
@@ -53,7 +53,7 @@ exports.addPost = (req, res, next) => {
     });
 };
 
-exports.getPosts = (req, res, next) => {
+exports.getAllPosts = (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const postQuery = Post.find();

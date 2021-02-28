@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
 router.post(
   "", checkAuth,
   multer({storage: storage}).single("image"),
-  PostsController.addPost
+  PostsController.createPost
 );
 
 router.put(
@@ -42,7 +42,7 @@ router.put(
   PostsController.updatePost
   );
 
-router.get("", PostsController.getPosts);
+router.get("", PostsController.getAllPosts);
 
 router.get("/:id", PostsController.getPost);
 
