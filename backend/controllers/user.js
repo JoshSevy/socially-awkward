@@ -13,7 +13,7 @@ exports.createUser = (req, res, next) => {
       user.save()
         .then(result => {
           res.status(201).json({
-            message: 'User created',
+            message: "User created",
             result: result
           });
         })
@@ -22,7 +22,7 @@ exports.createUser = (req, res, next) => {
             message: "Invalid authorization credentials!"
           });
         });
-    })
+    });
 };
 
 exports.userLogin = (req, res, next) => {
@@ -44,18 +44,19 @@ exports.userLogin = (req, res, next) => {
         })
       }
       const token = jwt.sign(
-        {email: fetchedUser.email, userId: fetchedUser._id},
+        { email: fetchedUser.email, userId: fetchedUser._id },
         process.env.JWT_KEY,
-        {expiresIn: '1h'}
+        { expiresIn: "1h" }
       );
       res.status(200).json({
         token: token,
         expiresIn: 3600,
-        userId: fethchedUser._id,
+        userId: fetchedUser._id,
         message: "login Successful"
       })
     })
     .catch(err => {
+      console.log(err)
       return res.status(401).json({
         message: "Invalid authentication credentials!"
       });

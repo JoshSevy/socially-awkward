@@ -1,7 +1,7 @@
-const Post = require('../models/post');
+const Post = require("../models/post");
 
 exports.createPost = (req, res, next) => {
-    const url = req.protocol + '://' + req.get("host");
+    const url = req.protocol + "://" + req.get("host");
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
@@ -20,15 +20,15 @@ exports.createPost = (req, res, next) => {
       })
       .catch(error => {
         res.status(500).json({
-          message: 'Creating a post failed!'
-        })
+          message: "Creating a post failed!"
+        });
       });
   };
 
   exports.updatePost = (req, res, next) => {
     let imagePath = req.body.imagePath;
     if (req.file) {
-      const url = req.protocol + '://' + req.get("host");
+      const url = req.protocol + "://" + req.get("host");
       imagePath = url + "/images/" + req.file.filename
     }
     const post = new Post({
@@ -48,7 +48,7 @@ exports.createPost = (req, res, next) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "Couldn't update post!"
+        message: "Couldn\'t update post!"
       })
     });
 };
@@ -69,7 +69,7 @@ exports.getPosts = (req, res, next) => {
   })
   .then(count => {
     res.status(200).json({
-      message: 'Posts fetched successfully!',
+      message: "Posts fetched successfully!",
       posts: fetchedPosts,
       maxPosts: count
     });

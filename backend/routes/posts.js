@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 
-const checkAuth = require('../middleware/check-auth');
-const extractFile = require('../middleware/file');
+const checkAuth = require("../middleware/check-auth");
+const extractFile = require("../middleware/file");
 
-const PostsController = require('../controllers/posts');
+const PostsController = require("../controllers/posts");
 
 const router = express.Router();
 

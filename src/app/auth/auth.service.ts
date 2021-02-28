@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
 
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
 
 const BACKEND_URL = environment.apiUrl + "/user/";
 
@@ -63,7 +63,7 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
           this.saveAuthData(token, expirationDate, this.userId)
-          this.router.navigate(['/']);
+          this.router.navigate(["/"]);
         }
       }, error => {
         this.authStatusListener.next(false);
@@ -92,8 +92,9 @@ export class AuthService {
     this.userId = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(['/']);
+    this.router.navigate(["/"]);
   }
+
   private setAuthTimer(duration: number) {
     console.log("Setting timer: " + duration);
     this.tokenTimer = setTimeout(() => {
